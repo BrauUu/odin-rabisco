@@ -1,6 +1,8 @@
 * {
     margin: 0;
     padding: 0;
+    user-select: none;
+    -webkit-user-drag: none;
 }
 
 body {
@@ -14,12 +16,12 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
+    flex-direction: row;
     gap: 20px;
     
 }
 
-#root {
+#grid {
     width: 800px;
     height: 800px;
     max-width: 100%;
@@ -31,11 +33,12 @@ body {
 
 .cel {
     box-sizing: border-box;
-    outline: 1px solid #000;
 }
 
-.hover {
-    background-color: aquamarine;
+.config {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 #squares-setter {
