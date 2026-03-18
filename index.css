@@ -124,3 +124,27 @@ body {
 svg {
     height: 20px;
 }
+
+.footer>.copyright {
+    text-decoration: none;
+    color: unset;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    font-size: 18px;
+    font-weight: 600;
+
+}
+
+.footer>.copyright>img {
+    height: 20px;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    translate: -50%;
+}
