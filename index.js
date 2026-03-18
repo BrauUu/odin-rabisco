@@ -1,16 +1,21 @@
 const grid = document.querySelector('#grid')
-const colorInput = document.querySelector('#color')
-const squaresSetterButton = document.querySelector('#squares-setter')
+const color1Input = document.querySelector('#color1')
+const color2Input = document.querySelector('#color2')
+const gridSizeSetter = document.querySelector('#grid-size-setter')
+const gridSizeValueEl = document.querySelector('#slider-value')
 
-let isDrawing = false
+let isDrawing = [false, false]
 let isErasing = false
-let currentColor = colorInput.value
+let currentColor1 = color1Input.value
+let currentColor2 = color2Input.value
 let blankColor = "#FFF"
 let tempColor
+let temptempOutlineColor
+let squaresCount = 16
 
 createGrid()
 
-function createGrid(side = 16) {
+function createGrid(side = squaresCount) {
 
     grid.innerHTML = ''
 
@@ -22,32 +27,38 @@ function createGrid(side = 16) {
         el.style.backgroundColor = blankColor
 
         el.addEventListener('mouseenter', () => {
-            if (isDrawing) {
-                el.style.backgroundColor = currentColor
+            if (isDrawing[0]) {
+                el.style.backgroundColor = currentColor1
+                el.style.outlineColor = currentColor1
                 el.dataset.preview = false
             }
-            else if (isErasing) {
-                el.style.backgroundColor = blankColor
+            else if (isDrawing[1]) {
+                el.style.backgroundColor = currentColor2
+                el.style.outlineColor = currentColor2
                 el.dataset.preview = false
             }
         })
 
         el.addEventListener('mousedown', (e) => {
             if (e.button === 0) {
-                el.style.backgroundColor = currentColor
+                el.style.backgroundColor = currentColor1
+                el.style.outlineColor = currentColor1
                 el.dataset.preview = false
             }
             else if (e.button === 2) {
-                el.style.backgroundColor = blankColor
+                el.style.backgroundColor = currentColor2
+                el.style.outlineColor = currentColor2
                 el.dataset.preview = false
             }
         })
 
         el.addEventListener('mouseover', () => {
-            if (convertRGBToHex(el.style.backgroundColor) !== currentColor) {
+            if (convertRGBToHex(el.style.backgroundColor) !== currentColor1) {
                 el.dataset.preview = true
                 tempColor = el.style.backgroundColor
-                el.style.backgroundColor = currentColor
+                tempOutlineColor = el.style.outlineColor
+                el.style.backgroundColor = currentColor1
+                el.style.outlineColor = currentColor1
             }
         })
 
@@ -55,6 +66,7 @@ function createGrid(side = 16) {
             if (el.dataset.preview === "true") {
                 el.dataset.preview = false
                 el.style.backgroundColor = tempColor
+                el.style.outlineColor = tempOutlineColor
             }
         })
 
@@ -64,36 +76,35 @@ function createGrid(side = 16) {
 
 grid.addEventListener('mousedown', (e) => {
     if (e.button === 0)
-        isDrawing = true
+        isDrawing[0] = true
     else if (e.button === 2)
-        isErasing = true
+        isDrawing[1] = true
 })
 
 grid.addEventListener('mouseup', (e) => {
     if (e.button === 0)
-        isDrawing = false
+        isDrawing[0] = false
     else if (e.button === 2)
-        isErasing = false
+        isDrawing[1] = false
 })
 
-colorInput.addEventListener("change", (e) => {
-    currentColor = e.target.value
+grid.addEventListener('mouseleave', (e) => {
+    isDrawing[0] = false
+    isDrawing[1] = false
 })
 
-squaresSetterButton.addEventListener('click', () => {
-    let message = 'Digite a quantidade de quadrados desejados:(1-100)'
-    while (true) {
-        const squaresAmount = window.prompt(message)
-        if (squaresAmount === null) {
-            break
-        }
-        const squaresAmountInt = parseInt(squaresAmount)
-        if (squaresAmountInt > 0 && squaresAmountInt <= 100) {
-            createGrid(squaresAmountInt)
-            break
-        }
-        message = 'Digite novamente a quantidade de quadrados desejados: (o valor deve ser entre 1 e 100)'
-    }
+color1Input.addEventListener("change", (e) => {
+    currentColor1 = e.target.value
+})
+
+color2Input.addEventListener("change", (e) => {
+    currentColor2 = e.target.value
+})
+
+gridSizeSetter.addEventListener('change', (e) => {
+    squaresCount = parseInt(e.target.value)
+    gridSizeValueEl.textContent = `${squaresCount}X${squaresCount}`
+    createGrid(squaresCount)
 })
 
 document.addEventListener('contextmenu', event => event.preventDefault());

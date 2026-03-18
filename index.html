@@ -1,18 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rabisco</title>
     <link rel="stylesheet" href="./index.css">
 </head>
+
 <body>
-    <div class="config">
-        <button id="squares-setter">Tamanho do grid</button>
-        <input type="color" id="color" value="#000" />
-    </div>
-    <div id="grid">
+    <header class="header">
+        <h1>Rabisco</h1>
+    </header>
+    <div class="container">
+        <div class="config">
+            <div class="color-container">
+                <input type="color" class="color" id="color1" value="#1d1d1d" />
+                <input type="color" class="color"  id="color2" value="#dbdbdb" />
+            </div>
+            <div class="box">
+                <div id="slider-value">16X16</div>
+                <input class="slider" type="range" min="4" max="40" id="grid-size-setter">
+            </div>
+        </div>
+        <div id="grid">
+        </div>
     </div>
     <script src="./index.js"></script>
 </body>
+
 </html>
